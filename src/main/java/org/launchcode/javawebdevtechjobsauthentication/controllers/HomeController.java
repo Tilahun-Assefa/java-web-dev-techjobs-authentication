@@ -33,9 +33,7 @@ public class HomeController {
     }
 
     @PostMapping("add")
-    public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                       Errors errors) {
-
+    public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors) {
         if (errors.hasErrors()) {
             return "add";
         }
@@ -46,7 +44,6 @@ public class HomeController {
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
-
         Optional optJob = jobRepository.findById(jobId);
         if (!optJob.isEmpty()) {
             Job job = (Job) optJob.get();
@@ -56,6 +53,4 @@ public class HomeController {
             return "redirect:/";
         }
     }
-
-
 }

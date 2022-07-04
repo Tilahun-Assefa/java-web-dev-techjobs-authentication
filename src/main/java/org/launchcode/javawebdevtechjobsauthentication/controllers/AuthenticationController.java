@@ -53,14 +53,12 @@ public class AuthenticationController {
     public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
                                           Errors errors, HttpServletRequest request,
                                           Model model) {
-
         if (errors.hasErrors()) {
             model.addAttribute("title", "Register");
             return "register";
         }
 
         User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
-
         if (existingUser != null) {
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
             model.addAttribute("title", "Register");
@@ -93,14 +91,12 @@ public class AuthenticationController {
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
                                    Errors errors, HttpServletRequest request,
                                    Model model) {
-
         if (errors.hasErrors()) {
             model.addAttribute("title", "Log In");
             return "login";
         }
 
         User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
-
         if (theUser == null) {
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
             model.addAttribute("title", "Log In");
@@ -108,7 +104,6 @@ public class AuthenticationController {
         }
 
         String password = loginFormDTO.getPassword();
-
         if (!theUser.isMatchingPassword(password)) {
             errors.rejectValue("password", "password.invalid", "Invalid password");
             model.addAttribute("title", "Log In");
@@ -116,7 +111,6 @@ public class AuthenticationController {
         }
 
         setUserInSession(request.getSession(), theUser);
-
         return "redirect:";
     }
 
